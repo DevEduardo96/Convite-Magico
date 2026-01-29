@@ -11,10 +11,10 @@ body {
     background-color: var(--bg-color);
     margin: 0;
     min-height: 100vh;
-    overflow-x: hidden; /* Evita rolagem horizontal */
+    overflow-x: hidden;
 }
 
-/* --- ESTILOS DO ENVELOPE (INTRO) --- */
+/* --- TELA 1: ENVELOPE E BALÕES --- */
 #intro-overlay {
     position: fixed;
     top: 0;
@@ -25,13 +25,52 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000; /* Fica acima de tudo */
-    transition: opacity 1s ease;
+    z-index: 2000;
+    overflow: hidden; /* Importante para os balões não vazarem */
+    transition: opacity 0.8s ease-out;
+}
+
+/* Novos estilos para os Balões */
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    width: var(--size, 50px);
+    height: calc(var(--size, 50px) * 1.2);
+    background-color: var(--color, var(--primary));
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    opacity: 0.8;
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.1);
+    animation: floatUp var(--duration, 10s) linear infinite;
+    animation-delay: var(--delay, 0s);
+    z-index: 1; /* Atrás do envelope */
+}
+
+/* O "fio" do balão */
+.balloon::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(calc(-100vh - 200px)) rotate(20deg);
+        opacity: 0;
+    }
 }
 
 .envelope-container {
     perspective: 1000px;
     text-align: center;
+    z-index: 10; /* Na frente dos balões */
 }
 
 .envelope {
@@ -44,7 +83,6 @@ body {
     cursor: pointer;
     margin: 0 auto;
 }
-
 .flap {
     position: absolute;
     top: 0;
@@ -58,7 +96,6 @@ body {
     transition: transform 0.6s ease-in-out;
     z-index: 5;
 }
-
 .envelope-body {
     position: absolute;
     bottom: 0;
@@ -69,7 +106,6 @@ body {
     border-radius: 0 0 10px 10px;
     z-index: 4;
 }
-
 .card {
     position: absolute;
     bottom: 0;
@@ -79,37 +115,31 @@ body {
     background: white;
     border-radius: 5px;
     transition: transform 0.8s ease-in-out;
-    z-index: 2; /* Dentro do envelope */
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-
 .card-content h1 {
     font-family: "Pacifico", cursive;
     color: var(--primary);
     margin: 0;
     font-size: 1.8rem;
 }
-
-/* Animação de Abrir */
 .envelope.open .flap {
     transform: rotateX(180deg);
     z-index: 1;
 }
-
 .envelope.open .card {
-    transform: translateY(-120px); /* Sobe a carta */
-    z-index: 6; /* Fica na frente do envelope */
+    transform: translateY(-120px);
+    z-index: 6;
 }
-
 .click-instruction {
     margin-top: 40px;
     color: var(--secondary);
     animation: pulse 1.5s infinite;
 }
-
 @keyframes pulse {
     0% {
         opacity: 0.6;
@@ -122,7 +152,7 @@ body {
     }
 }
 
-/* --- ESTILOS DO JOGO (GAME) --- */
+/* --- TELA 2: JOGO --- */
 .game-container {
     display: flex;
     flex-direction: column;
@@ -131,22 +161,18 @@ body {
     opacity: 1;
     transition: opacity 1s ease;
 }
-
 .game-container.hidden {
     display: none;
     opacity: 0;
 }
-
-/* Tabuleiro */
 .board {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin: 20px 0;
-    max-width: 340px; /* Limita largura para ficar bonito no celular */
+    max-width: 340px;
 }
-
 .tile {
     width: 65px;
     height: 65px;
@@ -160,7 +186,6 @@ body {
     box-shadow: 0 4px 0 #ddd;
     position: relative;
 }
-
 .tile.start {
     background-color: #b2fab4;
     border: 2px solid #2e7d32;
@@ -176,7 +201,6 @@ body {
     border: 2px dashed var(--primary);
     color: var(--primary);
 }
-
 .princess {
     font-size: 2.5rem;
     position: absolute;
@@ -184,8 +208,6 @@ body {
     filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
     transition: all 0.5s ease;
 }
-
-/* Botões e Modais */
 .controls {
     display: flex;
     flex-direction: column;
@@ -203,7 +225,6 @@ body {
     align-items: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-
 .action-btn {
     background-color: var(--primary);
     color: white;
@@ -220,13 +241,14 @@ body {
     box-shadow: 0 1px 0 #c2185b;
 }
 
+/* --- MODAIS GERAIS --- */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -238,15 +260,16 @@ body {
 .modal-content {
     background: white;
     padding: 25px;
-    border-radius: 20px;
-    width: 85%;
-    max-width: 400px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 450px;
     text-align: center;
-    animation: popIn 0.3s ease;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 @keyframes popIn {
     from {
-        transform: scale(0.5);
+        transform: scale(0.7);
         opacity: 0;
     }
     to {
@@ -255,6 +278,10 @@ body {
     }
 }
 
+/* Estilos da Pergunta */
+.question-content {
+    max-width: 350px;
+}
 .answer-btn {
     width: 100%;
     padding: 12px;
@@ -266,13 +293,91 @@ body {
     font-weight: bold;
     cursor: pointer;
 }
+
+/* --- ESTILOS DA TELA FINAL (VITÓRIA) --- */
+.win-title {
+    font-family: "Pacifico", cursive;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* Slideshow */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Altura fixa para as fotos */
+    margin: 20px 0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a foto preencha sem esticar */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active-slide {
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Caixa de Detalhes */
+.details-box {
+    background-color: #fff9f2;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+    border: 2px dashed #ffe0b2;
+}
+
+.detail-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.icon {
+    font-size: 1.8rem;
+    margin-right: 15px;
+}
+
+.info strong {
+    color: var(--secondary);
+    display: block;
+    margin-bottom: 5px;
+}
+.info p {
+    margin: 2px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
 .whatsapp-btn {
-    display: inline-block;
+    display: block;
+    width: 100%;
     background-color: #25d366;
     color: white;
     text-decoration: none;
-    padding: 15px 20px;
+    padding: 15px 0;
     border-radius: 30px;
     font-weight: bold;
-    margin-top: 20px;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 10px rgba(37, 211, 102, 0.3);
+    transition: transform 0.2s;
+}
+.whatsapp-btn:hover {
+    transform: translateY(-3px);
 }

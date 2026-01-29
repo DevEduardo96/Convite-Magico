@@ -17,7 +17,7 @@
                     <div class="flap"></div>
                     <div class="card">
                         <div class="card-content">
-                            <h1>Convite Mágico</h1>
+                            <h1>Convite Real</h1>
                             <p>Uma aventura espera por você!</p>
                             <p class="tap-hint">(Toque para iniciar)</p>
                         </div>
@@ -43,7 +43,7 @@
         </div>
 
         <div id="question-modal" class="modal hidden">
-            <div class="modal-content">
+            <div class="modal-content question-content">
                 <h2 id="question-text">Pergunta?</h2>
                 <div id="answers-container" class="answers-grid"></div>
                 <p id="feedback-msg"></p>
@@ -52,18 +52,41 @@
 
         <div id="win-modal" class="modal hidden">
             <div class="modal-content win-content">
-                <h1>🎉 Chegamos! 🎉</h1>
-                <p>Você completou a jornada!</p>
-                <div class="invite-details">
-                    <p><strong>📅 Data:</strong> 11 de Fevereiro, às 19h</p>
-                    <p><strong>📍 Local:</strong> Rua São Pedro, Taioba</p>
+                <h1 class="win-title">🎉 Chegamos ao Castelo! 🎉</h1>
+                <p>Voce foi convidado para minha linda Festa!</p>
+
+                <div class="slideshow-container">
+                    <img src="./images/foto2.jpg" class="slide active-slide" />
+                    <img src="./images/foto1.jpg" class="slide" />
+                    <img src="./images/foto3.jpg" class="slide" />
                 </div>
+
+                <div class="details-box">
+                    <div class="detail-item">
+                        <span class="icon">📅</span>
+                        <div class="info">
+                            <strong>Quando?</strong>
+                            <p>Quarta-feira, 11 de fevereiro</p>
+                            <p>Às 18:00h</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <span class="icon">📍</span>
+                        <div class="info">
+                            <strong>Onde?</strong>
+                            <p>Castelo Mágico</p>
+                            <p>Rua São Pedro, 1353 - Bairro Taioba</p>
+                        </div>
+                    </div>
+                </div>
+
                 <a
-                    href="https://wa.me/99985285560"
+                    href="https://wa.me/SEU_NUMERO?text=Olá!%20Cheguei%20ao%20castelo%20e%20confirmo%20minha%20presença!"
                     target="_blank"
                     class="whatsapp-btn"
-                    >Confirmar Presença</a
                 >
+                    Confirmar Presença no WhatsApp
+                </a>
             </div>
         </div>
 

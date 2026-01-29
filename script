@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameContainer = document.getElementById("game-container");
   let gameStarted = false;
 
-  // 1. Inicia os balões flutuantes
   createBalloons();
 
   envelope.addEventListener("click", () => {
@@ -18,38 +17,31 @@ document.addEventListener("DOMContentLoaded", () => {
       introOverlay.style.opacity = "0";
       setTimeout(() => {
         introOverlay.style.display = "none";
-        // Remove os balões para economizar memória do celular
         document.querySelectorAll(".balloon").forEach((b) => b.remove());
-
         gameContainer.classList.remove("hidden");
         initGame();
       }, 800);
     }, 1500);
   });
 
-  // Função para criar balões aleatórios
   function createBalloons() {
     const colors = ["#ff69b4", "#9c27b0", "#ffc107", "#03a9f4", "#4caf50"];
-    const numBalloons = 15; // Quantidade de balões
-
+    const numBalloons = 15;
     for (let i = 0; i < numBalloons; i++) {
       const balloon = document.createElement("div");
       balloon.classList.add("balloon");
-
-      // Propriedades aleatórias via CSS variables
-      const size = Math.floor(Math.random() * 30) + 40; // entre 40 e 70px
+      const size = Math.floor(Math.random() * 30) + 40;
       balloon.style.setProperty("--size", `${size}px`);
       balloon.style.setProperty(
         "--color",
         colors[Math.floor(Math.random() * colors.length)],
       );
-      balloon.style.left = `${Math.random() * 90}vw`; // Posição horizontal
+      balloon.style.left = `${Math.random() * 90}vw`;
       balloon.style.setProperty(
         "--duration",
         `${Math.floor(Math.random() * 10) + 8}s`,
-      ); // Velocidade
-      balloon.style.setProperty("--delay", `${Math.random() * 5}s`); // Atraso inicial
-
+      );
+      balloon.style.setProperty("--delay", `${Math.random() * 5}s`);
       introOverlay.appendChild(balloon);
     }
   }
@@ -60,33 +52,47 @@ document.addEventListener("DOMContentLoaded", () => {
   princess.classList.add("princess");
   princess.textContent = "👸";
 
-  const totalTiles = 12;
+  // Aumentado para 20 quadros
+  const totalTiles = 20;
   const obstacles = {
-    3: {
+    5: {
       question: "Qual o desenho favorito dela?",
-      options: ["Blippi", "Maria Clara e jp", "Peppa pig"],
+      options: ["Blippi", "Maria Clara e JP", "Peppa Pig"],
       correct: 1,
     },
-    7: {
+    10: {
       question: "Quantos anos ela vai fazer?",
       options: ["2", "3", "4"],
-      correct: 2,
+      correct: 1, // Corrigido para índice 1 (se a resposta for 3 anos e a lista for [2,3,4])
+    },
+    15: {
+      question: "Qual a comida que a princesa mais gosta?",
+      options: ["Pizza", "Frutinhas", "Batata Frita"],
+      correct: 1,
     },
   };
+
   let currentPosition = 0;
   let isMoving = false;
 
   function initGame() {
+    boardEl.innerHTML = ""; // Limpa tabuleiro
     for (let i = 0; i < totalTiles; i++) {
       const tile = document.createElement("div");
       tile.classList.add("tile");
       tile.dataset.index = i;
-      if (i === 0) (tile.classList.add("start"), (tile.textContent = "Início"));
-      else if (i === totalTiles - 1)
-        (tile.classList.add("castle"), (tile.textContent = "🏰"));
-      else if (obstacles[i])
-        (tile.classList.add("question"), (tile.textContent = "?"));
-      else tile.textContent = i;
+      if (i === 0) {
+        tile.classList.add("start");
+        tile.textContent = "Início";
+      } else if (i === totalTiles - 1) {
+        tile.classList.add("castle");
+        tile.textContent = "🏰";
+      } else if (obstacles[i]) {
+        tile.classList.add("question");
+        tile.textContent = "?";
+      } else {
+        tile.textContent = i;
+      }
       boardEl.appendChild(tile);
     }
     movePrincessTo(0);
@@ -100,20 +106,25 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("roll-btn").addEventListener("click", async () => {
     if (isMoving) return;
     isMoving = true;
-    document.getElementById("roll-btn").disabled = true;
-    const diceDisplay = document.getElementById("dice-display");
 
-    // Animação dado
-    for (let i = 0; i < 10; i++) {
-      let r = Math.floor(Math.random() * 3) + 1;
-      diceDisplay.textContent = ["⚀", "⚁", "⚂"][r - 1];
-      await new Promise((r) => setTimeout(r, 80));
+    const btn = document.getElementById("roll-btn");
+    const diceDisplay = document.getElementById("dice-display");
+    btn.disabled = true;
+
+    const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
+    for (let i = 0; i < 12; i++) {
+      let tempRoll = Math.floor(Math.random() * 6);
+      diceDisplay.textContent = diceFaces[tempRoll];
+      await new Promise((r) => setTimeout(r, 70));
     }
-    let roll = Math.floor(Math.random() * 3) + 1;
-    diceDisplay.textContent = ["⚀", "⚁", "⚂"][roll - 1];
+
+    let roll = Math.floor(Math.random() * 6) + 1;
+    diceDisplay.textContent = diceFaces[roll - 1];
 
     await moveStepByStep(roll);
-    document.getElementById("roll-btn").disabled = false;
+
+    btn.disabled = false;
     isMoving = false;
   });
 
@@ -122,6 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentPosition < totalTiles - 1) {
         currentPosition++;
         movePrincessTo(currentPosition);
+
+        // Se pisar em um obstáculo durante o percurso, para imediatamente para responder
+        if (obstacles[currentPosition]) {
+          await new Promise((r) => setTimeout(r, 400));
+          break;
+        }
         await new Promise((r) => setTimeout(r, 400));
       }
     }
@@ -131,13 +148,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function checkTile() {
     if (currentPosition === totalTiles - 1) {
       setTimeout(() => {
-        // FIM DE JOGO - MOSTRA TELA FINAL
         document.getElementById("win-modal").classList.remove("hidden");
-        // INICIA O SLIDESHOW
         startSlideshow();
-      }, 300);
+      }, 500);
       return;
     }
+
     if (obstacles[currentPosition]) {
       showQuestion(obstacles[currentPosition]);
     }
@@ -146,12 +162,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- LÓGICA DO SLIDESHOW ---
   function startSlideshow() {
     const slides = document.querySelectorAll(".slide");
+    if (slides.length === 0) return;
     let currentSlideIdx = 0;
 
-    // Troca de slide a cada 3 segundos
     setInterval(() => {
       slides[currentSlideIdx].classList.remove("active-slide");
-      currentSlideIdx = (currentSlideIdx + 1) % slides.length; // Loop infinito
+      currentSlideIdx = (currentSlideIdx + 1) % slides.length;
       slides[currentSlideIdx].classList.add("active-slide");
     }, 3000);
   }
@@ -173,13 +189,16 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.onclick = () => {
         if (index === obstacleData.correct) {
           modal.classList.add("hidden");
+          // Avança uma casa extra de bônus por acertar
           if (currentPosition < totalTiles - 1) {
             currentPosition++;
             movePrincessTo(currentPosition);
+            // Verifica se essa nova casa é o castelo
+            if (currentPosition === totalTiles - 1) checkTile();
           }
         } else {
           document.getElementById("feedback-msg").textContent =
-            "Tente de novo na próxima rodada!";
+            "Quase lá! Tente de novo na próxima rodada!";
           document.getElementById("feedback-msg").style.color = "#e91e63";
           setTimeout(() => modal.classList.add("hidden"), 1500);
         }
