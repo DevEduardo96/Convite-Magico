@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     envelope.classList.add("open");
 
+    // --- ADICIONE ESTA LINHA AQUI ---
+    const musica = document.getElementById("musica-real");
+    musica.play().catch((e) => console.log("Erro ao tocar música:", e));
+    // --------------------------------
+
     setTimeout(() => {
       introOverlay.style.opacity = "0";
       setTimeout(() => {
