@@ -37,12 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
     3: {
       question: "Qual o desenho favorito da aniversariante?",
       options: ["Peppa Pig", "Maria clara e jp", "Blippi"],
-      correct: 0,
+      correct: 1,
     },
     7: {
       question: "Quantos aninhos ela vai fazer?",
       options: ["2", "3", "4"],
-      correct: 1,
+      correct: 2,
     },
   };
 
