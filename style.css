@@ -1,0 +1,278 @@
+:root {
+    --primary: #ff69b4; /* Rosa Choque */
+    --secondary: #9c27b0; /* Roxo */
+    --bg-color: #ffe6f2; /* Rosa Claro */
+    --envelope-color: #f8bbd0;
+    --flap-color: #f48fb1;
+}
+
+body {
+    font-family: "Nunito", sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden; /* Evita rolagem horizontal */
+}
+
+/* --- ESTILOS DO ENVELOPE (INTRO) --- */
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffe6f2 0%, #ffcce6 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Fica acima de tudo */
+    transition: opacity 1s ease;
+}
+
+.envelope-container {
+    perspective: 1000px;
+    text-align: center;
+}
+
+.envelope {
+    width: 300px;
+    height: 200px;
+    background-color: var(--envelope-color);
+    position: relative;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 110px solid var(--flap-color);
+    transform-origin: top;
+    transition: transform 0.6s ease-in-out;
+    z-index: 5;
+}
+
+.envelope-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: var(--envelope-color);
+    border-radius: 0 0 10px 10px;
+    z-index: 4;
+}
+
+.card {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: 270px;
+    height: 180px;
+    background: white;
+    border-radius: 5px;
+    transition: transform 0.8s ease-in-out;
+    z-index: 2; /* Dentro do envelope */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-content h1 {
+    font-family: "Pacifico", cursive;
+    color: var(--primary);
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+/* Animação de Abrir */
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .card {
+    transform: translateY(-120px); /* Sobe a carta */
+    z-index: 6; /* Fica na frente do envelope */
+}
+
+.click-instruction {
+    margin-top: 40px;
+    color: var(--secondary);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* --- ESTILOS DO JOGO (GAME) --- */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.game-container.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* Tabuleiro */
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    max-width: 340px; /* Limita largura para ficar bonito no celular */
+}
+
+.tile {
+    width: 65px;
+    height: 65px;
+    background-color: white;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #ccc;
+    box-shadow: 0 4px 0 #ddd;
+    position: relative;
+}
+
+.tile.start {
+    background-color: #b2fab4;
+    border: 2px solid #2e7d32;
+    color: #2e7d32;
+    font-size: 0.8rem;
+}
+.tile.castle {
+    background-color: #fff9c4;
+    font-size: 2rem;
+    border: 2px solid #fbc02d;
+}
+.tile.question {
+    border: 2px dashed var(--primary);
+    color: var(--primary);
+}
+
+.princess {
+    font-size: 2.5rem;
+    position: absolute;
+    z-index: 10;
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+    transition: all 0.5s ease;
+}
+
+/* Botões e Modais */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.dice {
+    font-size: 3.5rem;
+    background: white;
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-family: "Fredoka One", cursive;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #c2185b;
+}
+.action-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #c2185b;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+.modal.hidden {
+    display: none;
+}
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 400px;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+@keyframes popIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.answer-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.whatsapp-btn {
+    display: inline-block;
+    background-color: #25d366;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+}

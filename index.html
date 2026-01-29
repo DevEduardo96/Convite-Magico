@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Convite Princesa - Aventura</title>
+        <link rel="stylesheet" href="style.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&family=Pacifico&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <div id="intro-overlay">
+            <div class="envelope-container">
+                <div class="envelope" id="envelope">
+                    <div class="flap"></div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h1>Convite Mágico</h1>
+                            <p>Uma aventura espera por você!</p>
+                            <p class="tap-hint">(Toque para iniciar)</p>
+                        </div>
+                    </div>
+                    <div class="envelope-body"></div>
+                </div>
+                <p class="click-instruction">Clique no envelope para abrir</p>
+            </div>
+        </div>
+
+        <div class="game-container hidden" id="game-container">
+            <header>
+                <h1>Leve a Princesa Mikayla ao Castelo! 🏰</h1>
+                <p>Jogue o dado e vença os desafios para ver o convite.</p>
+            </header>
+
+            <div class="board" id="board"></div>
+
+            <div class="controls">
+                <div id="dice-display" class="dice">🎲</div>
+                <button id="roll-btn" class="action-btn">JOGAR DADO</button>
+            </div>
+        </div>
+
+        <div id="question-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="question-text">Pergunta?</h2>
+                <div id="answers-container" class="answers-grid"></div>
+                <p id="feedback-msg"></p>
+            </div>
+        </div>
+
+        <div id="win-modal" class="modal hidden">
+            <div class="modal-content win-content">
+                <h1>🎉 Chegamos! 🎉</h1>
+                <p>Você completou a jornada!</p>
+                <div class="invite-details">
+                    <p><strong>📅 Data:</strong> 11 de Fevereiro, às 19h</p>
+                    <p><strong>📍 Local:</strong> Rua São Pedro, Taioba</p>
+                </div>
+                <a
+                    href="https://wa.me/99985285560"
+                    target="_blank"
+                    class="whatsapp-btn"
+                    >Confirmar Presença</a
+                >
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
