@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameContainer = document.getElementById("game-container");
   let gameStarted = false;
 
+  // 1. Inicia os balões flutuantes
   createBalloons();
 
   envelope.addEventListener("click", () => {
@@ -13,50 +14,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
     envelope.classList.add("open");
 
+    // --- ADICIONE ESTA LINHA AQUI ---
     const musica = document.getElementById("musica-real");
     musica.play().catch((e) => console.log("Erro ao tocar música:", e));
+    // --------------------------------
 
     setTimeout(() => {
       introOverlay.style.opacity = "0";
       setTimeout(() => {
         introOverlay.style.display = "none";
+        // Remove os balões para economizar memória do celular
         document.querySelectorAll(".balloon").forEach((b) => b.remove());
+
         gameContainer.classList.remove("hidden");
         initGame();
       }, 800);
     }, 1500);
   });
 
+  // Função para criar balões aleatórios
   function createBalloons() {
     const colors = ["#ff69b4", "#9c27b0", "#ffc107", "#03a9f4", "#4caf50"];
-    const numBalloons = 15;
+    const numBalloons = 15; // Quantidade de balões
+
     for (let i = 0; i < numBalloons; i++) {
       const balloon = document.createElement("div");
       balloon.classList.add("balloon");
-      const size = Math.floor(Math.random() * 30) + 40;
+
+      // Propriedades aleatórias via CSS variables
+      const size = Math.floor(Math.random() * 30) + 40; // entre 40 e 70px
       balloon.style.setProperty("--size", `${size}px`);
       balloon.style.setProperty(
         "--color",
         colors[Math.floor(Math.random() * colors.length)],
       );
-      balloon.style.left = `${Math.random() * 90}vw`;
+      balloon.style.left = `${Math.random() * 90}vw`; // Posição horizontal
       balloon.style.setProperty(
         "--duration",
         `${Math.floor(Math.random() * 10) + 8}s`,
-      );
-      balloon.style.setProperty("--delay", `${Math.random() * 5}s`);
+      ); // Velocidade
+      balloon.style.setProperty("--delay", `${Math.random() * 5}s`); // Atraso inicial
+
       introOverlay.appendChild(balloon);
     }
   }
 
   // --- LÓGICA DO JOGO (TABULEIRO) ---
   const boardEl = document.getElementById("board");
-
-  // CRIAÇÃO DO PERSONAGEM COM A IMAGEM (Substituindo o Emoji)
   const princess = document.createElement("div");
   princess.classList.add("princess");
-  // A imagem usa a classe 'player-token' que definimos no CSS
-  princess.innerHTML = `<img src="./images/princesa.png" class="player-token" style="width:50px; height:50px; object-fit:contain;">`;
+  princess.textContent = "👸";
 
   const totalTiles = 12;
   const obstacles = {
@@ -75,23 +82,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let isMoving = false;
 
   function initGame() {
-    boardEl.innerHTML = "";
     for (let i = 0; i < totalTiles; i++) {
       const tile = document.createElement("div");
       tile.classList.add("tile");
       tile.dataset.index = i;
-      if (i === 0) {
-        tile.classList.add("start");
-        tile.textContent = "Início";
-      } else if (i === totalTiles - 1) {
-        tile.classList.add("castle");
-        tile.textContent = "🏰";
-      } else if (obstacles[i]) {
-        tile.classList.add("question");
-        tile.textContent = "?";
-      } else {
-        tile.textContent = i;
-      }
+      if (i === 0) (tile.classList.add("start"), (tile.textContent = "Início"));
+      else if (i === totalTiles - 1)
+        (tile.classList.add("castle"), (tile.textContent = "🏰"));
+      else if (obstacles[i])
+        (tile.classList.add("question"), (tile.textContent = "?"));
+      else tile.textContent = i;
       boardEl.appendChild(tile);
     }
     movePrincessTo(0);
@@ -99,9 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function movePrincessTo(index) {
     const targetTile = document.querySelector(`.tile[data-index='${index}']`);
-    if (targetTile) {
-      targetTile.appendChild(princess);
-    }
+    if (targetTile) targetTile.appendChild(princess);
   }
 
   document.getElementById("roll-btn").addEventListener("click", async () => {
@@ -110,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("roll-btn").disabled = true;
     const diceDisplay = document.getElementById("dice-display");
 
+    // Animação dado
     for (let i = 0; i < 10; i++) {
       let r = Math.floor(Math.random() * 3) + 1;
       diceDisplay.textContent = ["⚀", "⚁", "⚂"][r - 1];
@@ -137,7 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function checkTile() {
     if (currentPosition === totalTiles - 1) {
       setTimeout(() => {
+        // FIM DE JOGO - MOSTRA TELA FINAL
         document.getElementById("win-modal").classList.remove("hidden");
+        // INICIA O SLIDESHOW
         startSlideshow();
       }, 300);
       return;
@@ -147,25 +148,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // --- LÓGICA DO SLIDESHOW ---
   function startSlideshow() {
     const slides = document.querySelectorAll(".slide");
     let currentSlideIdx = 0;
+
+    // Troca de slide a cada 3 segundos
     setInterval(() => {
       slides[currentSlideIdx].classList.remove("active-slide");
-      currentSlideIdx = (currentSlideIdx + 1) % slides.length;
+      currentSlideIdx = (currentSlideIdx + 1) % slides.length; // Loop infinito
       slides[currentSlideIdx].classList.add("active-slide");
     }, 3000);
   }
 
-  // --- LÓGICA DAS PERGUNTAS COM FEEDBACK E MOVIMENTO ---
+  // --- LÓGICA DAS PERGUNTAS ---
   function showQuestion(obstacleData) {
     const modal = document.getElementById("question-modal");
     const ansContainer = document.getElementById("answers-container");
-    const feedbackMsg = document.getElementById("feedback-msg");
-
     document.getElementById("question-text").textContent =
       obstacleData.question;
-    feedbackMsg.textContent = "";
+    document.getElementById("feedback-msg").textContent = "";
     ansContainer.innerHTML = "";
     modal.classList.remove("hidden");
 
@@ -173,41 +175,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const btn = document.createElement("button");
       btn.classList.add("answer-btn");
       btn.textContent = opt;
-
       btn.onclick = () => {
-        // Desabilita botões para evitar cliques repetidos
-        const buttons = ansContainer.querySelectorAll("button");
-        buttons.forEach((b) => (b.style.pointerEvents = "none"));
-
         if (index === obstacleData.correct) {
-          // ACERTO: Mensagem e Avança 1
-          feedbackMsg.textContent = "Correto! Você avançou uma casa! 🌟";
-          feedbackMsg.style.color = "#4caf50";
-
-          setTimeout(() => {
-            if (currentPosition < totalTiles - 1) {
-              currentPosition++;
-              movePrincessTo(currentPosition);
-            }
-            setTimeout(() => {
-              modal.classList.add("hidden");
-              checkTile(); // Verifica se a nova casa tem algo
-            }, 800);
-          }, 500);
+          modal.classList.add("hidden");
+          if (currentPosition < totalTiles - 1) {
+            currentPosition++;
+            movePrincessTo(currentPosition);
+          }
         } else {
-          // ERRO: Mensagem e Volta 1
-          feedbackMsg.textContent = "Ops! Resposta errada. Volte uma casa! 🙊";
-          feedbackMsg.style.color = "#e91e63";
-
-          setTimeout(() => {
-            if (currentPosition > 0) {
-              currentPosition--;
-              movePrincessTo(currentPosition);
-            }
-            setTimeout(() => {
-              modal.classList.add("hidden");
-            }, 800);
-          }, 500);
+          document.getElementById("feedback-msg").textContent =
+            "Tente de novo na próxima rodada!";
+          document.getElementById("feedback-msg").style.color = "#e91e63";
+          setTimeout(() => modal.classList.add("hidden"), 1500);
         }
       };
       ansContainer.appendChild(btn);

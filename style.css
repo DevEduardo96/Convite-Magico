@@ -381,3 +381,21 @@ body {
 .whatsapp-btn:hover {
     transform: translateY(-3px);
 }
+
+/* Estilo para a foto da princesa no tabuleiro */
+.player-token {
+    width: 45px; /* Ajuste dependendo do tamanho das suas casas */
+    height: 45px;
+    object-fit: contain;
+    /* Se quiser a borda branca que fizemos na imagem ainda mais destacada: */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    display: block;
+    margin: 0 auto;
+}
+
+/* Garante que a casa do tabuleiro centralize a imagem */
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
