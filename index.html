@@ -79,7 +79,12 @@
             <button class="back-btn" onclick="goBackToMenu()">⬅ Voltar</button>
             <h1>Momentos Especiais</h1>
             <div class="video-container">
-                <video autoplay muted loop playsinline poster="foto1.jpg">
+                <video
+                    id="video-galeria"
+                    controls
+                    playsinline
+                    poster="./images/foto1.jpg"
+                >
                     <source src="video/video.mp4" type="video/mp4" />
                     Seu navegador não suporta vídeos em HTML5.
                 </video>
@@ -186,7 +191,7 @@
                     class="gallery-img"
                 />
                 <img
-                    src="./images/foto21.jpg"
+                    src="./images/foto21.jpeg"
                     alt="Foto 21"
                     class="gallery-img"
                 />

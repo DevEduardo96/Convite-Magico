@@ -564,20 +564,45 @@ body {
         right: 20px;
     }
 }
-/* Video slider*/
+/* --- ESTILOS DO VÍDEO --- */
 .video-container {
-    position: relative;
     width: 100%;
-    max-width: 800px; /* Limite opcional de largura */
-    margin: 0 auto;
-    aspect-ratio: 16 / 9; /* Mantém a proporção automaticamente */
+    max-width: 800px; /* Limita a largura para não ficar gigante no PC */
+    margin: 0 auto 20px auto; /* Centraliza e dá um respiro embaixo */
+    border-radius: 12px;
     overflow: hidden;
-    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra elegante */
+    aspect-ratio: 16 / 9; /* Se seu vídeo for em pé (vertical), mude para 9 / 16 */
     background-color: #000;
 }
 
-.video-container video {
+#video-galeria {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Garante que o vídeo preencha a div sem distorcer */
+    object-fit: cover;
+}
+
+/* --- ESTILOS DA GRADE DE FOTOS --- */
+.photo-grid {
+    display: grid;
+    /* Cria colunas que se adaptam sozinhas ao tamanho da tela */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    padding: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.gallery-img {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Deixa todas as miniaturas perfeitamente quadradas */
+    object-fit: cover; /* Evita que a foto fique esticada/espremida */
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.gallery-img:hover {
+    transform: scale(1.05); /* Efeitinho de zoom ao passar o mouse */
 }

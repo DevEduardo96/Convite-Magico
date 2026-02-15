@@ -370,3 +370,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 });
+// Captura os elementos de áudio e vídeo
+const musicaFundo = document.getElementById("musica-real");
+const videoGaleria = document.getElementById("video-galeria");
+const btnAbrirGaleria = document.getElementById("btn-photos"); // Ou o botão que confirma abrir as fotos
+
+// 1. Função para quando ENTRAR no Álbum
+btnAbrirGaleria.addEventListener("click", function () {
+  // Pausa a música da festa
+  if (musicaFundo) {
+    musicaFundo.pause();
+  }
+
+  // Dá o play no vídeo com o som ativado
+  if (videoGaleria) {
+    videoGaleria.currentTime = 0; // Faz o vídeo começar do zero
+    videoGaleria.play().catch((error) => {
+      console.log("O navegador pediu para o usuário dar play manualmente.");
+    });
+  }
+});
+
+// 2. Atualize a sua função goBackToMenu() existente para pausar o vídeo e voltar a música
+function goBackToMenu() {
+  // (Mantenha o código que você já tem aqui dentro para esconder as telas)
+  document.getElementById("gallery-container").classList.add("hidden");
+  document.getElementById("game-container").classList.add("hidden");
+  document.getElementById("invitation-container").classList.add("hidden");
+  document.getElementById("main-menu").classList.remove("hidden");
+
+  // PAUSA o vídeo da galeria se ele estiver tocando
+  if (videoGaleria) {
+    videoGaleria.pause();
+  }
+
+  // VOLTA a tocar a música de fundo
+  if (musicaFundo) {
+    musicaFundo.play();
+  }
+}
