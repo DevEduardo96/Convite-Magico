@@ -10,12 +10,14 @@
             rel="stylesheet"
         />
     </head>
+
     <body>
         <audio
             id="musica-real"
             src="./music/happy-birthday-to-you-bossa-nova-style-arrangement-21399.mp3"
             loop
         ></audio>
+
         <div id="intro-overlay">
             <div class="envelope-container">
                 <div class="envelope" id="envelope">
@@ -33,17 +35,286 @@
             </div>
         </div>
 
-        <div class="game-container hidden" id="game-container">
-            <header>
-                <h1>Leve a Princesa Mikayla ao Castelo! 🏰</h1>
-                <p>Jogue o dado e vença os desafios para ver o convite.</p>
-            </header>
+        <header id="app-header" class="hidden">
+            <div class="logo-text">Princesa Mikayla</div>
+            <div class="notification-icon" id="notif-btn">
+                🔔
+                <span class="badge">1</span>
+            </div>
+        </header>
 
+        <div id="main-menu" class="screen hidden">
+            <h2>O que vamos fazer?</h2>
+            <div class="menu-grid">
+                <button class="menu-card" id="btn-play">
+                    <span class="menu-icon">🎲</span>
+                    <span>Jogar</span>
+                </button>
+                <button class="menu-card" id="btn-invite">
+                    <span class="menu-icon">💌</span>
+                    <span>Ver Convite</span>
+                </button>
+                <button class="menu-card" id="btn-photos">
+                    <span class="menu-icon">📸</span>
+                    <span>Ver Fotos</span>
+                </button>
+            </div>
+            <p class="menu-footer">Escolha uma opção!</p>
+        </div>
+
+        <div class="screen hidden" id="game-container">
+            <button class="back-btn" onclick="goBackToMenu()">⬅ Voltar</button>
+            <div class="game-header-content">
+                <h1>Leve a Princesa ao Castelo! 🏰</h1>
+                <p>Jogue o dado e vença os desafios.</p>
+            </div>
             <div class="board" id="board"></div>
-
             <div class="controls">
                 <div id="dice-display" class="dice">🎲</div>
                 <button id="roll-btn" class="action-btn">JOGAR DADO</button>
+            </div>
+        </div>
+
+        <div class="screen hidden" id="gallery-container">
+            <button class="back-btn" onclick="goBackToMenu()">⬅ Voltar</button>
+            <h1>Momentos Especiais</h1>
+            <div class="video-container">
+                <video autoplay muted loop playsinline poster="foto1.jpg">
+                    <source src="video/video.mp4" type="video/mp4" />
+                    Seu navegador não suporta vídeos em HTML5.
+                </video>
+            </div>
+            <div class="photo-grid">
+                <img
+                    src="./images/foto1.jpg"
+                    alt="Foto 1"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto2.jpeg"
+                    alt="Foto 2"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto3.jpeg"
+                    alt="Foto 3"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto4.jpeg"
+                    alt="Foto 4"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto5.jpeg"
+                    alt="Foto 5"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto6.jpeg"
+                    alt="Foto 6"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto7.jpeg"
+                    alt="Foto 7"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto8.jpeg"
+                    alt="Foto 8"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto9.jpeg"
+                    alt="Foto 9"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto10.jpeg"
+                    alt="Foto 10"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto11.jpeg"
+                    alt="Foto 11"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto12.jpeg"
+                    alt="Foto 12"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto13.jpeg"
+                    alt="Foto 13"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto14.jpeg"
+                    alt="Foto 14"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto15.jpeg"
+                    alt="Foto 15"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto16.jpeg"
+                    alt="Foto 16"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto17.jpeg"
+                    alt="Foto 17"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto18.jpeg"
+                    alt="Foto 18"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto19.jpeg"
+                    alt="Foto 19"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto20.jpeg"
+                    alt="Foto 20"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto21.jpg"
+                    alt="Foto 21"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto22.jpeg"
+                    alt="Foto 22"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto23.jpeg"
+                    alt="Foto 23"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto24.jpeg"
+                    alt="Foto 24"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto25.jpeg"
+                    alt="Foto 25"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto26.jpeg"
+                    alt="Foto 26"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto27.jpeg"
+                    alt="Foto 27"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto28.jpeg"
+                    alt="Foto 28"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto29.jpeg"
+                    alt="Foto 29"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto30.jpeg"
+                    alt="Foto 30"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto30.jpeg"
+                    alt="Foto 29"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto31.jpeg"
+                    alt="Foto 29"
+                    class="gallery-img"
+                />
+                <img
+                    src="./images/foto32.jpeg"
+                    alt="Foto 29"
+                    class="gallery-img"
+                />
+            </div>
+        </div>
+
+        <div class="screen hidden" id="invitation-container">
+            <button class="back-btn" onclick="goBackToMenu()">⬅ Voltar</button>
+            <h1 class="win-title">Convite Real 👑</h1>
+
+            <div class="slideshow-container">
+                <img src="./images/foto2.jpg" class="slide active-slide" />
+                <img src="./images/foto1.jpg" class="slide" />
+                <img src="./images/foto3.jpg" class="slide" />
+            </div>
+
+            <div class="details-box">
+                <div class="detail-item">
+                    <span class="icon">📅</span>
+                    <div class="info">
+                        <strong>Quando?</strong>
+                        <p>Sábado, 14 de fevereiro</p>
+                        <p>Às 18:00h</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="icon">📍</span>
+                    <div class="info">
+                        <strong>Onde?</strong>
+                        <p>Castelo Mágico</p>
+                        <p>Rua São Pedro, 1353 - Bairro Taioba</p>
+                    </div>
+                </div>
+            </div>
+
+            <a
+                href="https://wa.me/5599985285560?text=Olá!%20Confirmo%20minha%20presença%20na%20festa!%20🎉"
+                target="_blank"
+                class="whatsapp-btn"
+            >
+                Confirmar Presença no WhatsApp
+            </a>
+        </div>
+
+        <div id="notification-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>💌 Recadinho!</h2>
+                <p>
+                    Não esqueça de confirmar sua presença o quanto antes para
+                    garantirmos as lembrancinhas!
+                </p>
+                <button class="close-modal-btn" id="close-notif">
+                    Entendi!
+                </button>
+            </div>
+        </div>
+
+        <div id="photo-alert-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>📸 Fique de Olho!</h2>
+                <p>
+                    As fotos oficiais da festa serão publicadas nesta área
+                    <strong>após o evento</strong>.
+                </p>
+                <p>Por enquanto, confira alguns momentos especiais!</p>
+                <button class="close-modal-btn" id="confirm-photo-btn">
+                    Entendi, ver fotos!
+                </button>
             </div>
         </div>
 
@@ -58,7 +329,7 @@
         <div id="win-modal" class="modal hidden">
             <div class="modal-content win-content">
                 <h1 class="win-title">🎉 Chegamos ao Castelo! 🎉</h1>
-                <p>Voce foi convidado para minha linda Festa!</p>
+                <p>Você foi convidado para minha festa!</p>
 
                 <div class="slideshow-container">
                     <img src="./images/foto2.jpg" class="slide active-slide" />
@@ -86,15 +357,28 @@
                 </div>
 
                 <a
-                    href="https://wa.me/5599985285560?text=Olá!%20A%20princesa%20chegou%20ao%20castelo!%20🏰%20Confirmo%20com%20muita%20alegria%20minha%20presença%20na%20festa!%20🎉"
+                    href="https://wa.me/5599985285560?text=A%20princesa%20chegou%20ao%20castelo!%20🏰%20Confirmo%20presença!"
                     target="_blank"
                     class="whatsapp-btn"
                 >
                     Confirmar Presença no WhatsApp
                 </a>
+                <button class="secondary-btn" onclick="goBackToMenu()">
+                    Voltar ao Menu
+                </button>
             </div>
         </div>
+        <div id="image-viewer" class="modal hidden" style="z-index: 4000">
+            <span class="close-viewer">&times;</span>
 
+            <button id="prev-photo" class="nav-arrow">❮</button>
+            <img class="modal-content" id="full-image" />
+            <button id="next-photo" class="nav-arrow">❯</button>
+
+            <p style="color: white; margin-top: 10px; font-size: 0.8rem">
+                Arraste para o lado para navegar
+            </p>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>
